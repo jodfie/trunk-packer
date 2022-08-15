@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nginx:
-    restart: always
+    restart: unless-stopped
     image: trunkplayer/trunkplayer-ng-nginx:latest
     ports:
       - 80:80
@@ -15,7 +15,7 @@ services:
       - ${MEDIA_VOLUME_PATH}:/code/mediafiles
 
   trunk-player-frontend:
-    restart: always
+    restart: unless-stopped
     image: trunkplayer/trunkplayer-ng-frontend:latest
     ports:
       - 3000:3000
@@ -24,14 +24,14 @@ services:
       NEXT_PUBLIC_RECOMMENDEDBASEAPIURL: "${NEXT_PUBLIC_RECOMMENDEDBASEAPIURL}"
 
   trunk-player-api:
-    restart: always
+    restart: unless-stopped
     image: trunkplayer/trunkplayer-ng:latest
     command: "bash -c 'sleep 10; python -m gevent.monkey manage.py migrate; python -m gevent.monkey manage.py createsuperuser --noinput; python -m gevent.monkey manage.py collectstatic --no-input; uwsgi --ini /code/uwsgi.conf'"
     environment:
       DEBUG: "${DEBUG}"
-      SEND_TELEMETRY: "${SEND_TELEMETRY}" # Turn True to help report new errors
-      # SENTRY_DSN: "${SENTRY_DSN}" Override TELEMETRY SENTRY DSN
-      FORCE_SECURE: "${FORCE_SECURE}" #
+      SEND_TELEMETRY: "${SEND_TELEMETRY}" 
+      # SENTRY_DSN: "${SENTRY_DSN}" 
+      FORCE_SECURE: "${FORCE_SECURE}"
       SECRET_KEY: "${SECRET_KEY}"
       MYSQL_DATABASE: "${SQL_DATABASE}"
       MYSQL_USER: "${SQL_USER}"
@@ -62,14 +62,14 @@ services:
       - rabbitmq
 
   trunk-player-worker:
-    restart: always
+    restart: unless-stopped
     image: trunkplayer/trunkplayer-ng:latest
     command: celery -A trunkplayer_ng worker -l info --pool=gevent --concurrency 100 -Q default,transmission_forwarding,radio_refrence,radio_alerts,transmission_ingest,tranmission_push
     environment:
       DEBUG: "${DEBUG}"
-      SEND_TELEMETRY: "${SEND_TELEMETRY}" # Turn True to help report new errors
-      # SENTRY_DSN: "${SENTRY_DSN}" Override TELEMETRY SENTRY DSN
-      FORCE_SECURE: "${FORCE_SECURE}" #
+      SEND_TELEMETRY: "${SEND_TELEMETRY}"
+      # SENTRY_DSN: "${SENTRY_DSN}"
+      FORCE_SECURE: "${FORCE_SECURE}"
       SECRET_KEY: "${SECRET_KEY}"
       MYSQL_DATABASE: "${SQL_DATABASE}"
       MYSQL_USER: "${SQL_USER}"
@@ -98,14 +98,14 @@ services:
       - rabbitmq
 
   trunk-player-beat:
-    restart: always
+    restart: unless-stopped
     image: trunkplayer/trunkplayer-ng:latest
     command: celery -A trunkplayer_ng beat -l info
     environment:
       DEBUG: "${DEBUG}"
-      SEND_TELEMETRY: "${SEND_TELEMETRY}" # Turn True to help report new errors
-      # SENTRY_DSN: "${SENTRY_DSN}" Override TELEMETRY SENTRY DSN
-      FORCE_SECURE: "${FORCE_SECURE}" #
+      SEND_TELEMETRY: "${SEND_TELEMETRY}"
+      # SENTRY_DSN: "${SENTRY_DSN}"
+      FORCE_SECURE: "${FORCE_SECURE}"
       SECRET_KEY: "${SECRET_KEY}"
       MYSQL_DATABASE: "${SQL_DATABASE}"
       MYSQL_USER: "${SQL_USER}"
@@ -135,7 +135,7 @@ services:
 
   database:
     image: mysql
-    restart: always
+    restart: unless-stopped
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
@@ -149,7 +149,7 @@ services:
 
   rabbitmq:
     image: 'rabbitmq:management'
-    restart: always
+    restart: unless-stopped
     ports:
       - "15672:15672"
     environment:
