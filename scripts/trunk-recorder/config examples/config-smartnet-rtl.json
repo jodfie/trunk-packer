@@ -1,0 +1,33 @@
+{
+    "ver": 2,
+    "sources": [
+
+        {
+            "center": 496500000.0,
+            "rate": 2048000.0,
+            "error": 1100,
+            "gain": 24,
+            "digitalRecorders": 4,
+            "analogRecorders": 2,
+            "driver": "osmosdr",
+            "device": "rtl=31"
+        }, {
+            "center": 490250000.0,
+            "rate": 2048000.0,
+            "error": 1400,
+            "gain": 24,
+            "digitalRecorders": 4,
+            "analogRecorders": 2,
+            "driver": "osmosdr",
+            "device": "rtl=32"
+        }
+    ],
+    "systems": [{
+        "control_channels": [496537500],
+        "type": "smartnet",
+        "talkgroupsFile": "your-talkgroups.csv",
+        "shortName": "your-system",
+        "modulation": "fsk4",
+        "analogLevels": 32
+    }]
+}
