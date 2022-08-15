@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  server: 
+    environment: 
+      - TZ=America/New_York
+    image: docker.io/chuot/rdio-scanner:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - /home/trunk/SDR/rdio-scanner:/app/data:z
+      - /home/trunk/SDRAudio:/recordings:z

@@ -6,15 +6,21 @@
     "releases_mirror": "releases.ubuntu.com",
     "archive_mirror": "archive.ubuntu.com",
     "build_number": "{{env `BUILD_NUMBER`}}",
+
     "docker_version": "{{env `DOCKER_VERSION`}}",
     "docker_compose_version": "{{env `DOCKER_COMPOSE_VERSION`}}",
+
     "zfs": "false",
+
     "ruby": "false",
     "ruby_version": "{{env `RUBY_VERSION`}}",
+
     "itamae": "false",
     "itamae_version": "{{env `ITAMAE_VERSION`}}",
+
     "chef_client": "false",
     "chef_client_version": "{{env `CHEF_CLIENT_VERSION`}}",
+    
     "awscli_version": "{{env `AWSCLI_VERSION`}}",
     "ec2_ami_tools_version": "{{env `EC2_AMI_TOOLS_VERSION`}}",
     "aws_cfn_bootstrap_version": "{{env `AWS_CFN_BOOTSTRAP_VERSION`}}",
@@ -37,6 +43,7 @@
     "sriov_support": "false",
     "encrypt_boot": "false",
     "source_ami": "{{env `EC2_SOURCE_AMI`}}",
+
     "proxmox_username": "{{env `PROXMOX_USERNAME`}}",
     "proxmox_password": "{{env `PROXMOX_PASSWORD`}}",
     "proxmox_realm": "{{env `PROXMOX_REALM`}}",
@@ -248,7 +255,7 @@
       "disks": [
         {
           "type": "scsi",
-          "disk_size": "40G",
+          "disk_size": "64G",
           "format": "raw",
           "storage_pool": "{{user `storage_pool`}}",
           "storage_pool_type": "{{user `storage_pool_type`}}"
